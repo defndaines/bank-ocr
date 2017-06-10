@@ -57,3 +57,19 @@
   (testing "Check invalid checksums of account numbers."
     (is (not (valid? "664371495")))
     (is (not (valid? "86110??36")))))
+
+
+(deftest user-story-3-test
+  (testing "Use cases from the original document."
+    (is (= "000000051"
+           (parse [" _  _  _  _  _  _  _  _    "
+                   "| || || || || || || ||_   |"
+                   "|_||_||_||_||_||_||_| _|  |"])))
+    (is (= "49006771?"
+           (parse ["    _  _  _  _  _  _     _ "
+                   "|_||_|| || ||_   |  |  | _ "
+                   "  | _||_||_||_|  |  |  | _|"])))
+    (is (= "1234?678?"
+           (parse ["    _  _     _  _  _  _  _ "
+                   "  | _| _||_| _ |_   ||_||_|"
+                   "  ||_  _|  | _||_|  ||_| _ "])))))
