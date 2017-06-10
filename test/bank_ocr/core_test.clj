@@ -49,3 +49,11 @@
            (parse ["    _  _     _  _  _  _  _ "
                    "  | _| _||_||_ |_   ||_||_|"
                    "  ||_  _|  | _||_|  ||_| _|"])))))
+
+
+(deftest user-story-2-test
+  (testing "Check valid checksums of account numbers."
+    (is (valid? "457508000")))
+  (testing "Check invalid checksums of account numbers."
+    (is (not (valid? "664371495")))
+    (is (not (valid? "86110??36")))))

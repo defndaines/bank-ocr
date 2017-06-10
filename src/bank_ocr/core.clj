@@ -7,6 +7,8 @@
 ;; Account Number: A sequence of 9 digits identifying an account.
 
 
+;; Parse OCR Entries
+
 (def digit-map
   "Mapping of the 9-character sequences that makes up each digit."
   {[\space \_ \space \| \space \| \| \_ \|] 0
@@ -39,6 +41,14 @@
        (map #(get digit-map %))
        ;; TODO Remove the String representation from this function.
        (apply str)))
+
+
+;; Checksums (Verify Account Numbers)
+
+(defn valid?
+  "Returns true if a account number is valid, false otherwise."
+  [acct]
+  false)
 
 
 ;; Command Line

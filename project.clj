@@ -1,4 +1,4 @@
-(defproject bank-ocr "0.1.0-SNAPSHOT"
+(defproject bank-ocr "0.2.0-SNAPSHOT"
   :description "Clojure implementation of Bank OCR kata."
   :url "https://github.com/defndaines/bank-ocr"
   :license {:name "Eclipse Public License"
