@@ -26,6 +26,21 @@ $ java -jar bank-ocr.jar resources/use-case-1.dat
 123456789
 ```
 
+Numbers are validated against a checksum. If they are not valid, an "ERR" will
+be reported in the output.
+
+If a number cannot be parsed from the OCR, then a "?" will be used to represent
+the illegible digit.
+
+```shell
+$ java -jar bank-ocr.java resources/use-case-3.dat
+
+000000051
+664371495 ERR
+49006771? ILL
+1234?678? ILL
+```
+
 
 ## Development
 

@@ -38,9 +38,7 @@
        (map #(partition-all 3 %))
        (apply map vector)
        (map flatten)
-       (map #(get digit-map %))
-       ;; TODO Remove the String representation from this function?
-       (apply str)))
+       (map #(get digit-map % \?))))
 
 
 ;; Checksums (Verify Account Numbers)
@@ -59,14 +57,13 @@
        11))
 
 
-(defn valid?
-  "Returns true if a account number is valid, false otherwise."
+(defn status
+  "Returns true if an account number is valid, 'ERR' is the checksum does not
+  validate, and 'ILL' if the number contains illegible digits."
   [acct]
-  (let [xs (map #(Character/getNumericValue %) acct)]
-    ;; '?' will be -1 and fail.
-    (if (every? nat-int? xs)
-      (zero? (checksum xs))
-      false)))
+  (if (every? nat-int? acct)
+    (when (pos? (checksum acct)) "ERR")
+    "ILL"))
 
 
 ;; Command Line
@@ -77,11 +74,24 @@
   (println message)
   (System/exit 1))
 
+
+(defn- report-entry
+  "Parse and print entry results to *out*. For valid accounts, will just print
+  the account number. If there is a problem, print out an error code after the
+  account number."
+  [entry]
+  (let [acct (parse entry)]
+    (print (clojure.string/join acct))
+    (if-let [st (status acct)]
+      (print (str \space st)))
+    (println)))
+
+
 (defn -main [& args]
   (if (seq args)
     (let [file (first args)]
       (with-open [reader (clojure.java.io/reader file)]
         (let [entries (partition-all 3 4 (line-seq reader))]
           (doseq [entry entries]
-            (println (parse entry))))))
+            (report-entry entry)))))
     (exit "No file to parse.")))
