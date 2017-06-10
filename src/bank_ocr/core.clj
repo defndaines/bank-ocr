@@ -1,5 +1,6 @@
 (ns bank-ocr.core
-  "Functions to solve the Bank OCR kata.")
+  "Functions to solve the Bank OCR kata."
+  (:gen-class))
 
 
 ;; Entry: A sequence of three lines which represent an account number.
@@ -38,3 +39,21 @@
        (map #(get digit-map %))
        ;; TODO Remove the String representation from this function.
        (apply str)))
+
+
+;; Command Line
+
+(defn- exit
+  "Exit with error after reporting a message."
+  [message]
+  (println message)
+  (System/exit 1))
+
+(defn -main [& args]
+  (if (seq args)
+    (let [file (first args)]
+      (with-open [reader (clojure.java.io/reader file)]
+        (let [entries (partition-all 3 4 (line-seq reader))]
+          (doseq [entry entries]
+            (println (parse entry))))))
+    (exit "No file to parse.")))
