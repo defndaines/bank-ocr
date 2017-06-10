@@ -39,16 +39,34 @@
        (apply map vector)
        (map flatten)
        (map #(get digit-map %))
-       ;; TODO Remove the String representation from this function.
+       ;; TODO Remove the String representation from this function?
        (apply str)))
 
 
 ;; Checksums (Verify Account Numbers)
 
+(def positions
+  "Position sequence constant for calculating checksums."
+  (range 9 0 -1))
+
+
+(defn- checksum
+  "Calculate checksum for account.
+  The calculation is (d1+2*d2+3*d3 +..+9*d9) mod 11 with the position number
+  relative to the end of the sequence: (d9 d8 d7 ... d1)"
+  [acct]
+  (mod (apply + (map * acct positions))
+       11))
+
+
 (defn valid?
   "Returns true if a account number is valid, false otherwise."
   [acct]
-  false)
+  (let [xs (map #(Character/getNumericValue %) acct)]
+    ;; '?' will be -1 and fail.
+    (if (every? nat-int? xs)
+      (zero? (checksum xs))
+      false)))
 
 
 ;; Command Line
